@@ -1,4 +1,44 @@
 @import "assets/styles/theme";
 
+// Variables CSS globales
+:root {
+  --color-primary:        #ff6600;
+  --color-primary-dark:   #e55a00;
+  --color-primary-light:  #ff8c3a;
+
+  --color-bg-base:        #ffffff;
+  --color-bg-surface:     #f8f9fa;
+  --color-bg-dark:        #1a1a2e;
+
+  --color-text-primary:   #1a1a2e;
+  --color-text-secondary: #6c757d;
+  --color-text-muted:     #adb5bd;
+
+  --color-border:         #e0e0e0;
+  --shadow-card:          0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover:    0 4px 16px rgba(0, 0, 0, 0.12);
+
+  --color-success:        #4caf50;
+  --color-danger:         #f44336;
+  --color-warning:        #ffc107;
+
+  --font-family:          'Inter', sans-serif;
+  --radius-btn:           8px;
+  --radius-card:          12px;
+  --transition-default:   all 0.2s ease-in-out;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
