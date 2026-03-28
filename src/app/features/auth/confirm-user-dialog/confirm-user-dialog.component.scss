@@ -1,0 +1,85 @@
+// Encabezado con ícono centrado
+.dialog-header {
+    text-align: center;
+    padding: 1.75rem 1.5rem 0;
+
+    &__icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.25rem;
+        box-shadow: 0 4px 14px rgba(255, 107, 0, 0.35);
+
+        mat-icon {
+            color: #fff;
+            font-size: 1.75rem;
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+    }
+
+    [mat-dialog-title] {
+        margin: 0 0 0.375rem !important;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-text-primary);
+    }
+}
+
+.dialog-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 0.875rem;
+}
+
+// Chip que destaca el email del usuario
+.email-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background-color: #fff5ee;
+    border: 1px solid rgba(255, 107, 0, 0.25);
+    border-radius: 20px;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    word-break: break-all;
+
+    mat-icon {
+        font-size: 1rem;
+        width: 1rem;
+        height: 1rem;
+        flex-shrink: 0;
+    }
+}
+
+// Texto de confirmación
+.dialog-body {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin: 0;
+    line-height: 1.6;
+}
+
+mat-dialog-content {
+    padding-top: 1rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+// Botones de acción
+mat-dialog-actions {
+    padding: 0.75rem 1.5rem 1.5rem !important;
+    gap: 0.75rem;
+    justify-content: flex-end;
+
+    button {
+        min-width: 120px;
+        border-radius: var(--radius-btn);
+    }
+}

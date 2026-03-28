@@ -1,0 +1,27 @@
+<div class="dialog-header">
+  <div class="dialog-header__icon">
+    <mat-icon>person_add</mat-icon>
+  </div>
+  <h2 mat-dialog-title>Crear nueva cuenta</h2>
+  <p class="dialog-subtitle">No encontramos ninguna cuenta asociada a</p>
+  <div class="email-chip">
+    <mat-icon>mail_outline</mat-icon>
+    <span>{{ data.email }}</span>
+  </div>
+</div>
+
+<mat-dialog-content>
+  <p class="dialog-body">
+    ¿Deseas registrarte con este correo y comenzar a gestionar tus tareas?
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button type="button" (click)="cancel()">
+    Cancelar
+  </button>
+  <button mat-raised-button color="primary" type="button" (click)="confirm()">
+    <mat-icon>person_add</mat-icon>
+    Crear cuenta
+  </button>
+</mat-dialog-actions>
