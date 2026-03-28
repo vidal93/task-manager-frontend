@@ -1,0 +1,24 @@
+<div class="dialog-header">
+  <div class="dialog-header__icon">
+    <mat-icon>delete_forever</mat-icon>
+  </div>
+  <h2 mat-dialog-title>¿Eliminar tarea?</h2>
+  <p class="dialog-subtitle">
+    Estás a punto de eliminar <strong>"{{ data.title }}"</strong>
+  </p>
+</div>
+
+<mat-dialog-content>
+  <div class="warning-banner">
+    <mat-icon>warning_amber</mat-icon>
+    <span>Esta acción no se puede deshacer.</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="warn" type="button" (click)="confirm()">
+    <mat-icon>delete</mat-icon>
+    Eliminar
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,214 @@
+.tasks-page {
+    min-height: 100vh;
+    background-color: var(--color-bg-surface);
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    background-color: var(--color-primary) !important;
+    color: #fff !important;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.toolbar-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.user-email {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-right: 0.5rem;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @media (max-width: 480px) {
+        max-width: 110px;
+    }
+}
+
+.tasks-content {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+
+    @media (max-width: 480px) {
+        padding: 1.25rem 0.75rem;
+    }
+}
+
+.tasks-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+
+        button {
+            width: 100%;
+        }
+    }
+}
+
+.tasks-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0;
+
+    @media (max-width: 480px) {
+        font-size: 1.25rem;
+    }
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    padding: 4rem 0;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 4rem 0;
+    color: var(--color-text-secondary);
+
+    .empty-icon {
+        font-size: 4rem;
+        width: 4rem;
+        height: 4rem;
+        opacity: 0.4;
+    }
+
+    p {
+        margin: 0;
+        font-size: 1rem;
+    }
+}
+
+// Tabs de pendientes / completadas
+.tasks-tabs {
+    ::ng-deep .mat-mdc-tab-header {
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: 0;
+    }
+
+    // Texto del tab inactivo con contraste suficiente para WCAG AA
+    ::ng-deep .mat-mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label {
+        color: var(--color-text-secondary);
+    }
+
+    ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+        color: var(--color-primary);
+    }
+
+    ::ng-deep .mat-mdc-tab-indicator .mat-mdc-tab-indicator__content {
+        border-color: var(--color-primary);
+    }
+}
+
+.tab-content {
+    padding-top: 1.25rem;
+}
+
+// Contador de tareas en el tab
+.tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: var(--color-text-secondary);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0 6px;
+    margin-left: 0.5rem;
+}
+
+// Badge naranja solo en el tab seleccionado
+::ng-deep .mdc-tab--active .tab-badge {
+    background-color: var(--color-primary);
+}
+
+// Estado vacío dentro de un tab
+.empty-state--tab {
+    padding: 2.5rem 0;
+
+    .empty-icon {
+        font-size: 3rem;
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+.task-card {
+    margin-bottom: 0.75rem;
+    border-radius: var(--radius-card) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+.task-card--completed {
+    opacity: 0.6;
+}
+
+.task-card-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem !important;
+}
+
+.task-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.task-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    word-break: break-word;
+}
+
+.task-title--completed {
+    text-decoration: line-through;
+    color: var(--color-text-secondary);
+}
+
+.task-description {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    word-break: break-word;
+}
+
+.task-date {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}

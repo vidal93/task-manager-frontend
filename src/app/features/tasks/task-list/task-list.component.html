@@ -1,0 +1,128 @@
+<div class="tasks-page">
+  <mat-toolbar class="toolbar" color="primary">
+    <span class="toolbar-title">Administrador de tareas</span>
+    <span class="spacer"></span>
+    <span class="user-email">{{ currentUser()?.email }}</span>
+    <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión" aria-label="Cerrar sesión">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div class="tasks-content">
+    <div class="tasks-header">
+      <h2 class="tasks-title">Mis tareas</h2>
+      <button mat-raised-button color="primary" (click)="openCreateDialog()" aria-label="Nueva tarea">
+        <mat-icon>add</mat-icon>
+        Nueva tarea
+      </button>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-container">
+        <mat-spinner diameter="48" />
+      </div>
+    } @else if (loadError()) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">cloud_off</mat-icon>
+        <p>No se pudieron cargar las tareas</p>
+        <button mat-raised-button color="primary" (click)="loadTasks()">Reintentar</button>
+      </div>
+    } @else if (tasks().length === 0) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">assignment</mat-icon>
+        <p>No tienes tareas aún</p>
+      </div>
+    } @else {
+
+      <mat-tab-group class="tasks-tabs" animationDuration="200ms">
+
+        <!-- Pestaña de tareas pendientes -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            Pendientes
+            <span class="tab-badge">{{ pendingTasks().length }}</span>
+          </ng-template>
+
+          <div class="tab-content">
+            @if (pendingTasks().length === 0) {
+              <div class="empty-state empty-state--tab">
+                <mat-icon class="empty-icon">check_circle_outline</mat-icon>
+                <p>¡Todo al día! No hay tareas pendientes.</p>
+              </div>
+            }
+            @for (task of pendingTasks(); track task.id) {
+              <mat-card class="task-card">
+                <mat-card-content class="task-card-content">
+                  <mat-checkbox
+                    [checked]="task.completed"
+                    (change)="toggleComplete(task)"
+                    aria-label="Marcar como completada"
+                  />
+                  <div class="task-info">
+                    <span class="task-title">{{ task.title }}</span>
+                    @if (task.description) {
+                      <span class="task-description">{{ task.description }}</span>
+                    }
+                    <span class="task-date">{{ task.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                  </div>
+                  <div class="task-actions">
+                    <button mat-icon-button (click)="openEditDialog(task)" matTooltip="Editar" aria-label="Editar tarea">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="openDeleteDialog(task)" matTooltip="Eliminar" aria-label="Eliminar tarea">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+        </mat-tab>
+
+        <!-- Pestaña de tareas completadas -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            Completadas
+            <span class="tab-badge">{{ completedTasks().length }}</span>
+          </ng-template>
+
+          <div class="tab-content">
+            @if (completedTasks().length === 0) {
+              <div class="empty-state empty-state--tab">
+                <mat-icon class="empty-icon">assignment_turned_in</mat-icon>
+                <p>Aún no has completado ninguna tarea.</p>
+              </div>
+            }
+            @for (task of completedTasks(); track task.id) {
+              <mat-card class="task-card task-card--completed">
+                <mat-card-content class="task-card-content">
+                  <mat-checkbox
+                    [checked]="task.completed"
+                    (change)="toggleComplete(task)"
+                    aria-label="Marcar como pendiente"
+                  />
+                  <div class="task-info">
+                    <span class="task-title task-title--completed">{{ task.title }}</span>
+                    @if (task.description) {
+                      <span class="task-description">{{ task.description }}</span>
+                    }
+                    <span class="task-date">{{ task.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                  </div>
+                  <div class="task-actions">
+                    <button mat-icon-button (click)="openEditDialog(task)" matTooltip="Editar" aria-label="Editar tarea">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="openDeleteDialog(task)" matTooltip="Eliminar" aria-label="Eliminar tarea">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    }
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="dialog-header">
+  <div class="dialog-header__icon">
+    <mat-icon>{{ isEditing ? 'edit_note' : 'add_task' }}</mat-icon>
+  </div>
+  <h2 mat-dialog-title>{{ isEditing ? 'Editar tarea' : 'Nueva tarea' }}</h2>
+  <p class="dialog-subtitle">
+    {{ isEditing ? 'Actualiza la información de tu tarea' : 'Completa los campos para crear tu tarea' }}
+  </p>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form" id="task-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+      <input
+        matInput
+        formControlName="title"
+        placeholder="¿Qué necesitas hacer?"
+        aria-label="Título de la tarea"
+        maxlength="100"
+        autocomplete="off"
+      />
+      <mat-hint align="end">{{ form.get('title')?.value?.length ?? 0 }}/100</mat-hint>
+      @if (form.get('title')?.hasError('required') && form.get('title')?.touched) {
+        <mat-error>El título es requerido</mat-error>
+      }
+      @if (form.get('title')?.hasError('maxlength') && form.get('title')?.touched) {
+        <mat-error>Máximo 100 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Agrega más detalles (opcional)"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="6"
+        aria-label="Descripción de la tarea"
+        maxlength="500"
+      ></textarea>
+      <mat-hint align="end">{{ form.get('description')?.value?.length ?? 0 }}/500</mat-hint>
+      @if (form.get('description')?.hasError('maxlength') && form.get('description')?.touched) {
+        <mat-error>Máximo 500 caracteres</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="submit()"
+    [disabled]="form.invalid"
+    [attr.aria-label]="isEditing ? 'Actualizar' : 'Crear tarea'"
+  >
+    <mat-icon>{{ isEditing ? 'save' : 'add' }}</mat-icon>
+    {{ isEditing ? 'Actualizar' : 'Crear tarea' }}
+  </button>
+</mat-dialog-actions>
