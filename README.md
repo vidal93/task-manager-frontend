@@ -1,27 +1,111 @@
-# TaskManagerFrontend
+# Task Manager — Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Aplicación Angular 17 para gestión de tareas personales. Parte del challenge técnico fullstack de Atom.
 
-## Development server
+La app permite iniciar sesión con correo electrónico, crear nuevas cuentas automáticamente si no existen, y gestionar tareas con título, descripción, fecha y estado de completado.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tecnologías
 
-## Code scaffolding
+| Tecnología                 | Versión | Para qué se usa                             |
+|----------------------------|---------|-------------------------------------------- |
+| Angular                    | 17.3    | Framework principal                         |
+| Angular Material           | 17.x    | Componentes de UI                           |
+| TypeScript                 | 5.x     | Lenguaje principal, modo estricto           |
+| RxJS                       | 7.x     | Manejo de peticiones HTTP con observables   |
+| Jest + jest-preset-angular | 29.x    | Tests unitarios                             |
+| SCSS                       | —       | Estilos por componente y variables globales |
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Estructura del proyecto
 
-## Build
+```
+src/app/
+├── core/                          # Todo lo transversal: servicios, guardas, interceptores
+│   ├── guards/
+│   │   └── auth.guard.ts          # Redirige a /auth si no hay sesión activa
+│   ├── interceptors/
+│   │   ├── auth.interceptor.ts    # Agrega el token a cada petición HTTP
+│   │   └── error.interceptor.ts   # Detecta 401 y cierra sesión automáticamente
+│   ├── models/                    # Interfaces TypeScript de toda la app
+│   ├── services/
+│   │   ├── auth.service.ts        # Maneja la sesión con signals y localStorage
+│   │   ├── user.service.ts        # Llamadas HTTP para buscar y crear usuarios
+│   │   ├── task.service.ts        # Llamadas HTTP para el CRUD de tareas
+│   │   └── toast.service.ts       # Cola de notificaciones con signals
+│   └── validators/
+│       └── email.validator.ts     # Valida que el correo tenga TLD (ej: @gmail.com)
+│
+├── features/
+│   ├── auth/
+│   │   ├── login/                 # Página de inicio de sesión
+│   │   └── confirm-user-dialog/   # Diálogo para confirmar la creación de cuenta
+│   └── tasks/
+│       ├── task-list/             # Página principal con pestañas pendientes/completadas
+│       ├── task-form-dialog/      # Diálogo para crear y editar tareas
+│       └── delete-task-dialog/    # Diálogo de confirmación antes de eliminar
+│
+└── shared/
+    └── components/
+        └── toast/                 # Notificaciones que aparecen en la esquina
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Por qué estas decisiones
 
-## Running unit tests
+**Signals en lugar de BehaviorSubject** — para estado local como la sesión del usuario o la lista de tareas se usan `signal()` y `computed()`. Es más simple y no requiere manejar subscripciones manualmente.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+**Standalone components** — ningún componente pertenece a un NgModule. Es la forma recomendada en Angular 17 y reduce el boilerplate.
 
-## Running end-to-end tests
+**Validador de correo propio** — el validador nativo de Angular acepta correos sin dominio completo como `usuario@gmail`. El nuestro exige formato real con TLD.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+**Toast sin dependencias externas** — se descartó `MatSnackBar` para tener control total sobre el estilo y el comportamiento de auto-dismiss.
 
-## Further help
+**Lazy loading en todas las rutas** — los componentes de `/auth` y `/tasks` se cargan solo cuando se necesitan, reduciendo el bundle inicial.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Rutas
+
+| Ruta     | Componente             | ¿Protegida?                 |
+|----------|------------------------|-----------------------------|
+| `/`      | —                      | Redirige a `/auth`          |
+| `/auth`  | `LoginComponent`       | No                          |
+| `/tasks` | `TaskListComponent`    | Sí — requiere sesión activa |
+
+## Cómo correrlo localmente
+
+```bash
+npm install
+npm start
+```
+
+La app corre en `http://localhost:4200` y se conecta al backend local por defecto.
+
+Para apuntar al backend en producción, editar `src/environments/environment.ts`:
+
+```typescript
+export const environment = {
+    production: false,
+    apiUrl: 'https://us-central1-task-manager-app-900fc.cloudfunctions.net/api',
+};
+```
+
+## Tests
+
+```bash
+npm test            # Corre todos los tests
+npm run test:ci     # Tests con reporte de cobertura (para CI)
+```
+
+## Build y deploy
+
+```bash
+npm run build                        # Build de producción en /dist
+firebase deploy --only hosting       # Deploy manual a Firebase Hosting
+```
+
+El pipeline en `.github/workflows/ci.yml` ejecuta tests, build y deploy automáticamente en cada push a `main`.
+
+## App en producción
+
+La aplicación está publicada en Firebase Hosting:
+
+```
+https://task-manager-app-900fc.web.app
+```
