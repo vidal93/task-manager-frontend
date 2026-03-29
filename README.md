@@ -4,6 +4,20 @@ Aplicación Angular 17 para gestión de tareas personales. Parte del challenge t
 
 La app permite iniciar sesión con correo electrónico, crear nuevas cuentas automáticamente si no existen, y gestionar tareas con título, descripción, fecha y estado de completado.
 
+## Comentarios sobre el desarrollo
+
+Decidí usar **signals** desde el inicio porque para este tipo de aplicación —estado local, sin necesidad de store global— son suficientes y el código queda más limpio que con BehaviorSubject. No hay que preocuparse por el unsubscribe ni por el boilerplate de los observables de estado.
+
+Para el flujo de login opté por hacer primero un GET al backend buscando el usuario por correo. Si devuelve 404 se muestra un diálogo de confirmación para crear la cuenta. Esto evita registrar usuarios accidentalmente y le da control explícito al usuario sobre si quiere continuar.
+
+El toast lo construí desde cero en lugar de usar `MatSnackBar`. Quería que se pudiera apilar sin pisarse y que el estilo fuera coherente con el tema de la app. Con MatSnackBar no se tiene ese control fácilmente.
+
+Para la autenticación implementé dos interceptores HTTP que trabajan en cadena: `authInterceptor` agrega el token a cada petición y `errorInterceptor` cierra la sesión automáticamente si el servidor responde con 401. El orden en que se registran en `app.config.ts` importa para que esto funcione correctamente.
+
+Los tests los enfoqué en los flujos críticos: el flujo completo de login, el CRUD de tareas, y los guards e interceptores. No busqué cobertura alta por sí sola sino cubrir los caminos que realmente importan.
+
+Un punto que me tomó revisión fue la configuración de Jest para que mostrara errores en los archivos `.spec.ts`., luego tambien la configuracion del proyecto en Firebase para el CI/CD y los servicios requeridos.
+
 ## Tecnologías
 
 | Tecnología                 | Versión | Para qué se usa                             |
