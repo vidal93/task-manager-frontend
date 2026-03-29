@@ -114,7 +114,21 @@ npm run build                        # Build de producción en /dist
 firebase deploy --only hosting       # Deploy manual a Firebase Hosting
 ```
 
-El pipeline en `.github/workflows/ci.yml` ejecuta tests, build y deploy automáticamente en cada push a `main`.
+## CI/CD
+
+GitHub Actions (`.github/workflows/ci.yml`) ejecuta en cada push y PR a `master`:
+
+```
+push/PR a master
+    │
+    ├── [1] test       → npm run test:ci → sube artefacto de cobertura
+    │
+    ├── [2] build      → ng build --configuration=production (solo si test pasa)
+    │
+    └── [3] deploy     → Firebase Hosting (solo push a master, requiere secret GCP_SA_KEY)
+```
+
+El deploy usa `FirebaseExtended/action-hosting-deploy@v0` y el secret `GCP_SA_KEY` del repositorio.
 
 ## App en producción
 
