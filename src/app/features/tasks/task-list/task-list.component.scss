@@ -166,7 +166,10 @@
 }
 
 .task-card--completed {
-    opacity: 0.6;
+    // Solo el contenido informativo se opaca, las acciones quedan visibles
+    .task-info {
+        opacity: 0.6;
+    }
 }
 
 .task-card-content {
@@ -186,7 +189,7 @@
 
 .task-title {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text-primary);
     word-break: break-word;
 }
@@ -197,13 +200,13 @@
 }
 
 .task-description {
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     color: var(--color-text-secondary);
     word-break: break-word;
 }
 
 .task-date {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
 }
 

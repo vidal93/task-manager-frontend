@@ -41,4 +41,5 @@ body {
   background-color: var(--color-bg-surface);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
